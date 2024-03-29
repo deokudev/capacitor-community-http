@@ -133,18 +133,19 @@ class HttpRequestHandler {
 
         let fname = url.lastPathComponent
         let mimeType = FilesystemUtils.mimeTypeForPath(path: fname)
-        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-        data.append(
-          "Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fname)\"\r\n".data(
-            using: .utf8)!)
-        data.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
-        data.append(fileData)
-        strings.forEach { key, value in
-            data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-            data.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
-            data.append(value.data(using: .utf8)!)
-        }
-        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+//        bugfix : Form 데이터 제거
+//        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+//        data.append(
+//          "Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fname)\"\r\n".data(
+//            using: .utf8)!)
+//        data.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+//        data.append(fileData)
+//        strings.forEach { key, value in
+//            data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+//            data.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+//            data.append(value.data(using: .utf8)!)
+//        }
+//        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
 
         return data
     }
@@ -228,7 +229,8 @@ class HttpRequestHandler {
         request.setTimeout(timeout)
 
         let boundary = UUID().uuidString
-        request.setContentType("multipart/form-data; boundary=\(boundary)");
+//        bugfix : Form 데이터 제거
+//        request.setContentType("multipart/form-data; boundary=\(boundary)");
 
         guard let form = try? generateMultipartForm(fileUrl, name, boundary, body) else { throw URLError(.cannotCreateFile) }
 

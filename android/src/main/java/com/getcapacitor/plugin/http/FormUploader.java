@@ -31,7 +31,8 @@ public class FormUploader {
         UUID uuid = UUID.randomUUID();
         boundary = uuid.toString();
 
-        connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+        // bugfix : Form 형식 제거
+        // connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
         outputStream = connection.getOutputStream();
         prWriter = new PrintWriter(new OutputStreamWriter(outputStream, charset), true);
@@ -98,22 +99,23 @@ public class FormUploader {
      */
     public void addFilePart(String fieldName, File uploadFile, JSObject data) throws IOException {
         String fileName = uploadFile.getName();
-        prWriter
-            .append(LINE_FEED)
-            .append("--")
-            .append(boundary)
-            .append(LINE_FEED)
-            .append("Content-Disposition: form-data; name=\"")
-            .append(fieldName)
-            .append("\"; filename=\"")
-            .append(fileName)
-            .append("\"")
-            .append(LINE_FEED)
-            .append("Content-Type: ")
-            .append(URLConnection.guessContentTypeFromName(fileName))
-            .append(LINE_FEED)
-            .append(LINE_FEED);
-        prWriter.flush();
+        // bugfix : Form 형식 제거
+        // prWriter
+        //     .append(LINE_FEED)
+        //     .append("--")
+        //     .append(boundary)
+        //     .append(LINE_FEED)
+        //     .append("Content-Disposition: form-data; name=\"")
+        //     .append(fieldName)
+        //     .append("\"; filename=\"")
+        //     .append(fileName)
+        //     .append("\"")
+        //     .append(LINE_FEED)
+        //     .append("Content-Type: ")
+        //     .append(URLConnection.guessContentTypeFromName(fileName))
+        //     .append(LINE_FEED)
+        //     .append(LINE_FEED);
+        // prWriter.flush();
 
         FileInputStream inputStream = new FileInputStream(uploadFile);
         byte[] buffer = new byte[4096];
@@ -140,8 +142,9 @@ public class FormUploader {
             }
         }
 
-        prWriter.append(LINE_FEED).append("--").append(boundary).append("--").append(LINE_FEED);
-        prWriter.flush();
+        // bugfix : Form 형식 제거
+        // prWriter.append(LINE_FEED).append("--").append(boundary).append("--").append(LINE_FEED);
+        // prWriter.flush();
     }
 
     /**
