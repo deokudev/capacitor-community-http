@@ -123,23 +123,23 @@ class HttpRequestHandler {
     }
 
     private static func generateMultipartForm(_ url: URL, _ name: String, _ boundary: String, _ body: [String:Any]) throws -> Data {
-        let strings: [String: String] = body.compactMapValues { any in
-            any as? String
-        }
+//        let strings: [String: String] = body.compactMapValues { any in
+//            any as? String
+//        }
 
         var data = Data()
 
         let fileData = try Data(contentsOf: url)
 
-        let fname = url.lastPathComponent
-        let mimeType = FilesystemUtils.mimeTypeForPath(path: fname)
 //        bugfix : Form 데이터 제거
+//        let fname = url.lastPathComponent
+//        let mimeType = FilesystemUtils.mimeTypeForPath(path: fname)
 //        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
 //        data.append(
 //          "Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fname)\"\r\n".data(
 //            using: .utf8)!)
 //        data.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
-//        data.append(fileData)
+        data.append(fileData)
 //        strings.forEach { key, value in
 //            data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
 //            data.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
